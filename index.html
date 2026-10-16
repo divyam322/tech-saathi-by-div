@@ -237,76 +237,193 @@
   </p>
 </section>
 
-<!-- SCREEN 6: STUDENT DASHBOARD -->
+
+<!-- SCREEN 6: TECH SAATHI DASHBOARD -->
 <section id="dashboard-screen" class="screen content-screen dashboard-screen" hidden>
-  <header class="dashboard-header">
-    <div class="dashboard-brand">
-      <div class="brand-logo"><span>TS</span></div>
-      <div>
-        <h2>Tech Saathi</h2>
-        <p>by Div · Your learning companion</p>
-      </div>
+
+  <header class="ts-header">
+    <button id="ts-menu-toggle" class="ts-menu-toggle"
+      type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+
+    <a href="#" id="ts-home-brand" class="ts-brand">
+      <span class="ts-logo">TS</span>
+      <span>
+        <strong>Tech Saathi</strong>
+        <small>by Div · Your digital learning companion</small>
+      </span>
+    </a>
+
+    <div class="ts-header-actions">
+      <label class="sr-only" for="ts-language">Language</label>
+      <select id="ts-language" aria-label="Choose language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+      </select>
+      <button id="dashboard-logout" class="ts-signout" type="button">
+        Sign Out
+      </button>
     </div>
-    <button id="dashboard-logout" class="secondary-button logout-button">
-      Sign Out
-    </button>
   </header>
 
-  <div class="dashboard-welcome">
-    <p class="eyebrow">YOUR LEARNING SPACE</p>
-    <h2>Welcome, <span id="dashboard-user-name">Learner</span>! 👋</h2>
-    <p>What would you like to learn today?</p>
+  <div class="ts-layout">
+    <div id="ts-backdrop" class="ts-backdrop" hidden></div>
+
+    <aside id="ts-sidebar" class="ts-sidebar">
+      <div class="ts-sidebar-brand">
+        <span class="ts-logo">TS</span>
+        <strong>Tech Saathi</strong>
+        <small>Learn with confidence 💙</small>
+      </div>
+
+      <nav class="ts-navigation" aria-label="Main navigation">
+        <button class="ts-nav active" data-view="home">⌂ <span>Home</span></button>
+        <button class="ts-nav" data-device="mobile">▣ <span>Mobile Phone</span></button>
+        <button class="ts-nav" data-device="computer">▱ <span>Laptop &amp; Computer</span></button>
+        <button class="ts-nav" data-view="learning">▤ <span>My Learning</span></button>
+        <button class="ts-nav" data-view="language">文 <span>Language</span></button>
+        <button class="ts-nav" data-action="signout">↪ <span>Sign Out</span></button>
+        <button class="ts-nav" data-view="help">? <span>Help</span></button>
+        <button class="ts-nav" data-view="profile">○ <span>Profile</span></button>
+      </nav>
+    </aside>
+
+    <main id="ts-main" class="ts-main">
+
+      <section id="ts-home-view" class="ts-view">
+        <div class="ts-welcome">
+          <p class="ts-eyebrow">YOUR LEARNING SPACE</p>
+          <h1>Welcome back, <span id="dashboard-user-name">Learner</span>! 👋</h1>
+          <p>Your journey to becoming more confident with technology starts here.</p>
+        </div>
+
+        <section class="ts-section">
+          <h2>Choose your device</h2>
+          <p class="ts-subtitle">Select what you would like to learn today.</p>
+
+          <div class="ts-device-grid">
+            <article class="ts-device-card">
+              <div class="ts-device-icon" aria-hidden="true">📱</div>
+              <h3>Mobile Phone</h3>
+              <p>Learn everyday phone skills, step by step.</p>
+              <button class="ts-primary" data-device="mobile" type="button">
+                Explore →
+              </button>
+            </article>
+
+            <article class="ts-device-card">
+              <div class="ts-device-icon" aria-hidden="true">💻</div>
+              <h3>Laptop &amp; Computer</h3>
+              <p>Build confidence using a computer.</p>
+              <button class="ts-primary" data-device="computer" type="button">
+                Explore →
+              </button>
+            </article>
+          </div>
+        </section>
+
+        <section class="ts-section">
+          <h2>You're making progress! 🌟</h2>
+          <p class="ts-subtitle">Every lesson is a step towards greater confidence.</p>
+
+          <div class="ts-panel">
+            <div class="ts-progress-heading">
+              <strong>Your learning progress</strong>
+              <strong id="ts-progress-percent">0%</strong>
+            </div>
+            <div class="ts-progress-track" role="progressbar"
+              aria-label="Learning progress" aria-valuemin="0"
+              aria-valuemax="100" aria-valuenow="0">
+              <span id="ts-progress-fill"></span>
+            </div>
+            <p id="ts-progress-count">
+              You haven't completed any lessons yet. Your progress will appear here as you learn.
+            </p>
+          </div>
+        </section>
+
+        <section class="ts-section">
+          <h2>Continue Learning</h2>
+          <p class="ts-subtitle">Pick up where you left off.</p>
+
+          <div class="ts-panel ts-empty">
+            <span class="ts-empty-icon">📘</span>
+            <h3>Your learning journey starts here!</h3>
+            <p>Explore a device and start your first lesson. Your learning will show up here.</p>
+            <button class="ts-secondary" data-device="mobile" type="button">
+              Start exploring
+            </button>
+          </div>
+        </section>
+      </section>
+
+      <section id="ts-topics-view" class="ts-view" hidden>
+        <button class="ts-back" data-view="home" type="button">
+          ← Back to dashboard
+        </button>
+        <div class="ts-welcome">
+          <p class="ts-eyebrow">BEGINNER LEARNING PATH</p>
+          <h1 id="ts-topics-title">Mobile Phone</h1>
+          <p id="ts-topics-description">Start with the basics and learn at your own pace.</p>
+        </div>
+        <div id="ts-topics-grid" class="ts-topic-grid"></div>
+        <p id="dashboard-feature-message" class="auth-message"
+          role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="ts-learning-view" class="ts-view" hidden>
+        <div class="ts-welcome">
+          <p class="ts-eyebrow">YOUR LEARNING SPACE</p>
+          <h1>My Learning</h1>
+          <p>Your completed lessons and progress will be collected here.</p>
+        </div>
+        <div class="ts-panel ts-empty">
+          <h3>Every expert starts somewhere.</h3>
+          <p>Choose a device to begin your learning journey.</p>
+          <button class="ts-primary" data-device="mobile" type="button">
+            Choose your device →
+          </button>
+        </div>
+      </section>
+
+      <section id="ts-help-view" class="ts-view" hidden>
+        <div class="ts-welcome">
+          <h1>How can we help?</h1>
+          <p>Tech Saathi helps you learn technology one simple step at a time.</p>
+        </div>
+        <div class="ts-panel">
+          <h3>Getting started</h3>
+          <p>Choose a device, select a topic, and follow the beginner-friendly lessons.</p>
+        </div>
+        <div class="ts-panel">
+          <h3>Change your language</h3>
+          <p>Choose English, हिन्दी, or বাংলা using the language selector above.</p>
+        </div>
+        <div class="ts-panel">
+          <h3>Always free 💙</h3>
+          <p>Tech Saathi by Div is free to use. You do not need to pay to learn here.</p>
+        </div>
+      </section>
+
+      <section id="ts-profile-view" class="ts-view" hidden>
+        <div class="ts-welcome">
+          <p class="ts-eyebrow">YOUR ACCOUNT</p>
+          <h1>Your Profile</h1>
+          <p>Your account details for this learning space.</p>
+        </div>
+        <div class="ts-panel ts-profile">
+          <span class="ts-empty-icon">👤</span>
+          <p>Name</p>
+          <strong id="ts-profile-name">Learner</strong>
+          <p>Email address</p>
+          <strong id="ts-profile-email">Not available</strong>
+        </div>
+      </section>
+
+    </main>
   </div>
-
-  <div class="dashboard-banner">
-    <span class="banner-icon">🚀</span>
-    <div>
-      <h3>Your journey starts here</h3>
-      <p>Build digital skills, explore technology, and learn at your own pace.</p>
-    </div>
-  </div>
-
-  <div class="dashboard-section-heading">
-    <h3>Explore your learning tools</h3>
-    <p>Choose a tool to get started.</p>
-  </div>
-
-  <div class="dashboard-grid">
-    <button class="learning-card" data-feature="doubts">
-      <span class="learning-icon">💡</span>
-      <strong>AI Doubt Solver</strong>
-      <span>Get help understanding your questions.</span>
-      <span class="card-link">Explore →</span>
-    </button>
-
-    <button class="learning-card" data-feature="notes">
-      <span class="learning-icon">📚</span>
-      <strong>Smart Notes</strong>
-      <span>Prepare clear, organised study notes.</span>
-      <span class="card-link">Explore →</span>
-    </button>
-
-    <button class="learning-card" data-feature="tests">
-      <span class="learning-icon">🎯</span>
-      <strong>Practice Tests</strong>
-      <span>Practise questions and check your progress.</span>
-      <span class="card-link">Explore →</span>
-    </button>
-
-    <button class="learning-card" data-feature="digital">
-      <span class="learning-icon">🛡️</span>
-      <strong>Digital Safety</strong>
-      <span>Learn how to stay safer online.</span>
-      <span class="card-link">Explore →</span>
-    </button>
-  </div>
-
-  <p id="dashboard-feature-message" class="auth-message" role="status" aria-live="polite"></p>
-
-  <footer class="app-footer">
-    Learn. Explore. Stay Safe. 💙
-  </footer>
 </section>
+
 </main>
 
 
