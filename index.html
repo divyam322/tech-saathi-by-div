@@ -243,8 +243,21 @@
   <script src="app.js"></script>
   
 <script type="module">
+ 
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    sendEmailVerification,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCLA8YDeQdYxBd9YNH6bM3k9ducU4PgKoM",
@@ -257,12 +270,25 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
 
-  // Make Firebase available to the existing app.js.
-  window.techSaathiAuth = auth;
+  window.techSaathiFirebase = {
+    auth,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    sendEmailVerification,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signInWithPopup,
+    signOut,
+    googleProvider
+  };
+
+  console.log("Tech Saathi Firebase Authentication initialized.");
 </script>
 </body>
 </html>
+
 
 </body>
 </html>
