@@ -1605,3 +1605,34 @@ button,
 
 
 
+
+/* Friendly device illustrations */
+.ts-device-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.ts-device-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 170px;
+  margin: -7px 0 17px;
+  object-fit: contain;
+  border-radius: 15px;
+}
+
+.ts-device-card .ts-device-icon {
+  width: 58px;
+  height: 58px;
+  margin-bottom: 14px;
+  border: 1px solid #dce8fb;
+  background: linear-gradient(145deg, #edf5ff, #f0edff);
+  font-size: 32px;
+}
+
+@media (max-width: 760px) {
+  .ts-device-illustration {
+    max-height: 190px;
+  }
+}
