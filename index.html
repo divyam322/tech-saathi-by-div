@@ -277,14 +277,30 @@
       </div>
 
       <nav class="ts-navigation" aria-label="Main navigation">
-        <button class="ts-nav active" data-view="home">⌂ <span>Home</span></button>
-        <button class="ts-nav" data-device="mobile">▣ <span>Mobile Phone</span></button>
-        <button class="ts-nav" data-device="computer">▱ <span>Laptop &amp; Computer</span></button>
-        <button class="ts-nav" data-view="learning">▤ <span>My Learning</span></button>
-        <button class="ts-nav" data-view="language">文 <span>Language</span></button>
-        <button class="ts-nav" data-action="signout">↪ <span>Sign Out</span></button>
-        <button class="ts-nav" data-view="help">? <span>Help</span></button>
-        <button class="ts-nav" data-view="profile">○ <span>Profile</span></button>
+        <button class="ts-nav active" type="button" data-view="home" aria-current="page">
+          <span class="ts-nav-icon" aria-hidden="true">🏠</span><span>Home</span>
+        </button>
+        <button class="ts-nav" type="button" data-device="mobile">
+          <span class="ts-nav-icon" aria-hidden="true">📱</span><span>Mobile Phone</span>
+        </button>
+        <button class="ts-nav" type="button" data-device="computer">
+          <span class="ts-nav-icon" aria-hidden="true">💻</span><span>Laptop &amp; Computer</span>
+        </button>
+        <button class="ts-nav" type="button" data-view="learning">
+          <span class="ts-nav-icon" aria-hidden="true">📚</span><span>My Learning</span>
+        </button>
+        <button class="ts-nav" type="button" data-view="language">
+          <span class="ts-nav-icon" aria-hidden="true">🌐</span><span>Language</span>
+        </button>
+        <button class="ts-nav" type="button" data-action="signout">
+          <span class="ts-nav-icon" aria-hidden="true">🚪</span><span>Sign Out</span>
+        </button>
+        <button class="ts-nav" type="button" data-view="help">
+          <span class="ts-nav-icon" aria-hidden="true">❓</span><span>Help</span>
+        </button>
+        <button class="ts-nav" type="button" data-view="profile">
+          <span class="ts-nav-icon" aria-hidden="true">👤</span><span>Profile</span>
+        </button>
       </nav>
     </aside>
 
