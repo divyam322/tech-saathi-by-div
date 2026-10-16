@@ -1,1 +1,122 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2455c7">
+  <meta name="description" content="Tech Saathi by Div — Learn digital skills, step by step.">
+  <title>Tech Saathi by Div</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+
+    <!-- SCREEN 1: WELCOME -->
+    <section id="welcome-screen" class="screen welcome-screen active">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <span>TS</span>
+        </div>
+        <div class="brand-name">
+          <h1>Tech Saathi</h1>
+          <p>by Div</p>
+        </div>
+      </div>
+
+      <div class="welcome-content">
+        <div class="welcome-illustration" aria-hidden="true">
+          <div class="illustration-circle">
+            <span class="illustration-icon">📱</span>
+            <span class="floating-icon floating-one">💡</span>
+            <span class="floating-icon floating-two">🌐</span>
+            <span class="floating-icon floating-three">🔒</span>
+          </div>
+        </div>
+
+        <p class="eyebrow">YOUR DIGITAL COMPANION</p>
+        <h2>Technology made simple.</h2>
+        <p class="tagline">Learn. Explore. Stay Safe.</p>
+        <p class="welcome-description">
+          Your friendly companion for learning digital skills,
+          using online services, and staying safe on the internet.
+        </p>
+
+        <button id="get-started-btn" class="primary-button">
+          Get Started <span aria-hidden="true">→</span>
+        </button>
+
+        <p class="welcome-note">
+          Simple lessons · Practical guidance · Learn at your own pace
+        </p>
+      </div>
+
+      <footer class="app-footer">
+        Made to make technology easier for everyone 💙
+      </footer>
+    </section>
+
+    <!-- SCREEN 2: LANGUAGE SELECTION -->
+    <section id="language-screen" class="screen content-screen"
+      aria-labelledby="language-title" hidden>
+
+      <button id="back-to-welcome" class="back-button"
+        aria-label="Back to welcome screen">
+        ← <span id="back-label">Back</span>
+      </button>
+
+      <div class="language-heading">
+        <div class="section-icon" aria-hidden="true">🌐</div>
+        <p class="eyebrow" id="language-eyebrow">LET'S GET STARTED</p>
+        <h2 id="language-title">Choose your language</h2>
+        <p id="language-description">
+          Select the language you're most comfortable with.
+        </p>
+      </div>
+
+      <div class="language-options">
+        <button class="language-card" data-language="en">
+          <span class="language-symbol english-symbol">A</span>
+          <span class="language-text">
+            <strong>English</strong>
+            <small>Continue in English</small>
+          </span>
+          <span class="language-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <button class="language-card" data-language="hi">
+          <span class="language-symbol hindi-symbol">अ</span>
+          <span class="language-text">
+            <strong>हिन्दी</strong>
+            <small>हिन्दी में आगे बढ़ें</small>
+          </span>
+          <span class="language-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <button class="language-card" data-language="bn">
+          <span class="language-symbol bengali-symbol">অ</span>
+          <span class="language-text">
+            <strong>বাংলা</strong>
+            <small>বাংলায় এগিয়ে যান</small>
+          </span>
+          <span class="language-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <p class="language-note" id="language-note">
+        You can change your language later in Settings.
+      </p>
+
+      <footer class="app-footer">
+        Tech Saathi <span aria-hidden="true">♥</span> by Div
+      </footer>
+    </section>
+
+    <!-- NEXT SCREEN WILL BE ADDED IN THE NEXT STEP -->
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
