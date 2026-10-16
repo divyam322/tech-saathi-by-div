@@ -1,11 +1,22 @@
 
 "use strict";
 
+/* =========================================
+   TECH SAATHI BY DIV
+   App navigation, Firebase authentication,
+   language selection and student dashboard
+========================================= */
+
+/* ---------- SCREEN ELEMENTS ---------- */
+
 const welcomeScreen = document.getElementById("welcome-screen");
 const languageScreen = document.getElementById("language-screen");
 const accountScreen = document.getElementById("account-screen");
 const registerScreen = document.getElementById("register-screen");
 const signInScreen = document.getElementById("sign-in-screen");
+const dashboardScreen = document.getElementById("dashboard-screen");
+
+/* ---------- BUTTONS AND FORMS ---------- */
 
 const getStartedButton = document.getElementById("get-started-btn");
 const backButton = document.getElementById("back-to-welcome");
@@ -19,6 +30,8 @@ const signInForm = document.getElementById("sign-in-form");
 const languageCards = document.querySelectorAll(".language-card");
 
 let selectedLanguage = "en";
+
+/* ---------- TRANSLATIONS ---------- */
 
 const translations = {
   en: {
@@ -79,25 +92,31 @@ const translations = {
   }
 };
 
+/* ---------- SCREEN NAVIGATION ---------- */
+
 function showScreen(screenToShow) {
   const screens = [
     welcomeScreen,
     languageScreen,
     accountScreen,
     registerScreen,
-    signInScreen
+    signInScreen,
+    dashboardScreen
   ];
 
   screens.forEach((screen) => {
     if (!screen) return;
 
     const visible = screen === screenToShow;
+
     screen.hidden = !visible;
     screen.classList.toggle("active", visible);
   });
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+/* ---------- LANGUAGE SELECTION ---------- */
 
 function updateLanguage(languageCode) {
   if (!translations[languageCode]) return;
@@ -115,8 +134,10 @@ function updateLanguage(languageCode) {
   document.getElementById("language-note").textContent = t.note;
 
   document.getElementById("account-back-label").textContent = t.back;
-  document.getElementById("account-eyebrow").textContent = t.accountEyebrow;
-  document.getElementById("account-title").textContent = t.accountTitle;
+  document.getElementById("account-eyebrow").textContent =
+    t.accountEyebrow;
+  document.getElementById("account-title").textContent =
+    t.accountTitle;
   document.getElementById("account-description").textContent =
     t.accountDescription;
   document.getElementById("create-account-label").textContent =
@@ -125,7 +146,8 @@ function updateLanguage(languageCode) {
   document.getElementById("account-note").textContent = t.accountNote;
 
   document.getElementById("register-back-label").textContent = t.back;
-  document.getElementById("register-title").textContent = t.registerTitle;
+  document.getElementById("register-title").textContent =
+    t.registerTitle;
   document.getElementById("register-description").textContent =
     t.registerDescription;
   document.getElementById("sign-in-back-label").textContent = t.back;
@@ -147,15 +169,41 @@ function openSignInScreen() {
   showScreen(signInScreen);
 }
 
+/* ---------- DASHBOARD ---------- */
+
+function openDashboard(user) {
+  const nameElement = document.getElementById("dashboard-user-name");
+
+  if (nameElement) {
+    nameElement.textContent =
+      user.displayName ||
+      user.email?.split("@")[0] ||
+      "Learner";
+  }
+
+  clearMessage("dashboard-feature-message");
+  showScreen(dashboardScreen);
+}
+
+/* ---------- STATUS MESSAGES ---------- */
+
 function clearMessage(id) {
   const element = document.getElementById(id);
-  if (element) element.textContent = "";
+
+  if (element) {
+    element.textContent = "";
+  }
 }
 
 function setMessage(id, message) {
   const element = document.getElementById(id);
-  if (element) element.textContent = message;
+
+  if (element) {
+    element.textContent = message;
+  }
 }
+
+/* ---------- FIREBASE ACCESS ---------- */
 
 function getFirebase() {
   if (!window.techSaathiFirebase) {
@@ -167,41 +215,65 @@ function getFirebase() {
   return window.techSaathiFirebase;
 }
 
+/* ---------- AUTHENTICATION ERROR MESSAGES ---------- */
+
 function readableAuthError(error) {
   const messages = {
     "auth/email-already-in-use":
       "An account already exists with this email. Please sign in instead.",
+
     "auth/invalid-email":
       "Please enter a valid email address.",
+
     "auth/weak-password":
       "Please choose a stronger password.",
+
     "auth/invalid-credential":
       "The email or password is incorrect. Please try again.",
+
     "auth/user-not-found":
       "No account was found with these details.",
+
     "auth/wrong-password":
       "The email or password is incorrect. Please try again.",
+
     "auth/popup-closed-by-user":
       "The Google sign-in window was closed before finishing.",
+
     "auth/popup-blocked":
       "Your browser blocked the sign-in window. Allow pop-ups and try again.",
+
     "auth/unauthorized-domain":
       "This website domain is not authorized in Firebase Authentication.",
+
     "auth/network-request-failed":
       "Network error. Check your internet connection and try again.",
+
     "auth/too-many-requests":
       "Too many attempts. Please wait a while and try again.",
+
     "auth/operation-not-allowed":
-      "This sign-in method is not enabled in Firebase."
+      "This sign-in method is not enabled in Firebase.",
+
+    "auth/account-exists-with-different-credential":
+      "An account already exists with this email using a different sign-in method."
   };
 
-  return messages[error.code] ||
+  return (
+    messages[error.code] ||
     "Something went wrong. Please try again. (" +
-    (error.code || "unknown error") + ")";
+      (error.code || "unknown error") +
+      ")"
+  );
 }
+
+/* ---------- DATE OF BIRTH VALIDATION ---------- */
 
 function validateDateOfBirth() {
   const field = document.getElementById("register-dob");
+
+  if (!field) return true;
+
   const value = field.value;
 
   if (!value) {
@@ -211,16 +283,23 @@ function validateDateOfBirth() {
 
   const dob = new Date(value + "T00:00:00");
   const today = new Date();
+
   today.setHours(0, 0, 0, 0);
 
   if (Number.isNaN(dob.getTime()) || dob > today) {
-    setMessage("register-message", "Please enter a valid date of birth.");
+    setMessage(
+      "register-message",
+      "Please enter a valid date of birth."
+    );
+
     field.focus();
     return false;
   }
 
   return true;
 }
+
+/* ---------- MAIN NAVIGATION EVENTS ---------- */
 
 getStartedButton.addEventListener("click", () => {
   showScreen(languageScreen);
@@ -259,14 +338,13 @@ document.getElementById("show-register").addEventListener("click", () => {
   openRegisterScreen();
 });
 
-/* EMAIL AND PASSWORD REGISTRATION */
+/* ---------- EMAIL AND PASSWORD REGISTRATION ---------- */
 
 registerForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   clearMessage("register-message");
 
   const name = document.getElementById("register-name").value.trim();
-  const dob = document.getElementById("register-dob").value;
   const email = document.getElementById("register-email").value.trim();
   const password = document.getElementById("register-password").value;
   const confirmPassword =
@@ -285,6 +363,7 @@ registerForm.addEventListener("submit", async (event) => {
   }
 
   const submitButton = document.getElementById("register-submit");
+
   submitButton.disabled = true;
   submitButton.textContent = "Creating account...";
 
@@ -307,7 +386,7 @@ registerForm.addEventListener("submit", async (event) => {
 
     await firebase.sendEmailVerification(createdUser);
 
-    // Do not retain the new user's authenticated session until verification.
+    // Keep email/password users signed out until email verification.
     await firebase.signOut(firebase.auth);
 
     registerForm.reset();
@@ -319,9 +398,10 @@ registerForm.addEventListener("submit", async (event) => {
   } catch (error) {
     if (createdUser) {
       try {
-        await getFirebase().signOut(getFirebase().auth);
+        const firebase = getFirebase();
+        await firebase.signOut(firebase.auth);
       } catch (_) {
-        // Keep the original error for the user.
+        // Preserve the original error message.
       }
     }
 
@@ -332,7 +412,7 @@ registerForm.addEventListener("submit", async (event) => {
   }
 });
 
-/* EMAIL AND PASSWORD SIGN-IN */
+/* ---------- EMAIL AND PASSWORD SIGN-IN ---------- */
 
 signInForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -354,11 +434,12 @@ signInForm.addEventListener("submit", async (event) => {
       password
     );
 
+    // Email verification is required before dashboard access.
     if (!credential.user.emailVerified) {
       try {
         await firebase.sendEmailVerification(credential.user);
       } catch (_) {
-        // The existing verification email may still be valid.
+        // An earlier verification email may still be valid.
       }
 
       await firebase.signOut(firebase.auth);
@@ -371,12 +452,7 @@ signInForm.addEventListener("submit", async (event) => {
       return;
     }
 
-    setMessage(
-      "login-message",
-      "Email verified and sign-in successful! The learning dashboard will be connected in the next stage."
-    );
-
-    // Dashboard navigation will be added when that screen is built.
+    openDashboard(credential.user);
   } catch (error) {
     setMessage("login-message", readableAuthError(error));
   } finally {
@@ -385,7 +461,7 @@ signInForm.addEventListener("submit", async (event) => {
   }
 });
 
-/* GOOGLE SIGN-IN */
+/* ---------- GOOGLE SIGN-IN ---------- */
 
 async function handleGoogleSignIn(isRegistration) {
   clearMessage(isRegistration ? "register-message" : "login-message");
@@ -395,6 +471,15 @@ async function handleGoogleSignIn(isRegistration) {
   const messageId = isRegistration
     ? "register-message"
     : "login-message";
+
+  const buttonId = isRegistration
+    ? "google-register-btn"
+    : "google-login-btn";
+
+  const googleButton = document.getElementById(buttonId);
+
+  googleButton.disabled = true;
+  googleButton.textContent = "Connecting to Google...";
 
   try {
     const firebase = getFirebase();
@@ -406,18 +491,21 @@ async function handleGoogleSignIn(isRegistration) {
 
     if (!result.user.emailVerified) {
       await firebase.signOut(firebase.auth);
-      setMessage(messageId, "Please verify your email before continuing.");
+
+      setMessage(
+        messageId,
+        "Please verify your email before continuing."
+      );
+
       return;
     }
 
-    setMessage(
-      messageId,
-      "Google sign-in successful! The learning dashboard will be connected in the next stage."
-    );
-
-    // Dashboard navigation will be added in the next stage.
+    openDashboard(result.user);
   } catch (error) {
     setMessage(messageId, readableAuthError(error));
+  } finally {
+    googleButton.disabled = false;
+    googleButton.textContent = "Continue with Google";
   }
 }
 
@@ -431,7 +519,7 @@ document.getElementById("google-login-btn").addEventListener(
   () => handleGoogleSignIn(false)
 );
 
-/* PASSWORD RESET */
+/* ---------- PASSWORD RESET ---------- */
 
 document.getElementById("forgot-password-btn").addEventListener(
   "click",
@@ -445,9 +533,14 @@ document.getElementById("forgot-password-btn").addEventListener(
         "login-message",
         "Enter your email address above first, then select Forgot password."
       );
+
       document.getElementById("login-email").focus();
       return;
     }
+
+    const resetButton = document.getElementById("forgot-password-btn");
+
+    resetButton.disabled = true;
 
     try {
       const firebase = getFirebase();
@@ -460,8 +553,63 @@ document.getElementById("forgot-password-btn").addEventListener(
       );
     } catch (error) {
       setMessage("login-message", readableAuthError(error));
+    } finally {
+      resetButton.disabled = false;
     }
   }
 );
+
+/* ---------- DASHBOARD FEATURE CARDS ---------- */
+
+document.querySelectorAll(".learning-card").forEach((card) => {
+  card.addEventListener("click", () => {
+    const features = {
+      doubts: "AI Doubt Solver",
+      notes: "Smart Notes",
+      tests: "Practice Tests",
+      digital: "Digital Safety"
+    };
+
+    const feature = features[card.dataset.feature];
+
+    if (!feature) return;
+
+    setMessage(
+      "dashboard-feature-message",
+      feature +
+        " is on the development roadmap. Its working features will be connected in the next stage."
+    );
+  });
+});
+
+/* ---------- SIGN OUT ---------- */
+
+document.getElementById("dashboard-logout").addEventListener(
+  "click",
+  async () => {
+    const logoutButton = document.getElementById("dashboard-logout");
+
+    logoutButton.disabled = true;
+    logoutButton.textContent = "Signing out...";
+
+    try {
+      const firebase = getFirebase();
+
+      await firebase.signOut(firebase.auth);
+
+      showScreen(welcomeScreen);
+    } catch (error) {
+      setMessage(
+        "dashboard-feature-message",
+        "Could not sign out. Please try again."
+      );
+    } finally {
+      logoutButton.disabled = false;
+      logoutButton.textContent = "Sign Out";
+    }
+  }
+);
+
+/* ---------- INITIAL SCREEN ---------- */
 
 showScreen(welcomeScreen);
