@@ -154,6 +154,29 @@
   </main>
 
   <script src="app.js"></script>
+  
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCLA8YDeQdYxBd9YNH6bM3k9ducU4PgKoM",
+    authDomain: "tech-saathi-by-div.firebaseapp.com",
+    projectId: "tech-saathi-by-div",
+    storageBucket: "tech-saathi-by-div.firebasestorage.app",
+    messagingSenderId: "874258700887",
+    appId: "1:874258700887:web:63eb4902a4eb2d8653e112"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Make Firebase available to the existing app.js.
+  window.techSaathiAuth = auth;
+</script>
+</body>
+</html>
+
 </body>
 </html>
 
