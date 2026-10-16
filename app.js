@@ -171,19 +171,29 @@ function openSignInScreen() {
 
 /* ---------- DASHBOARD ---------- */
 
-function openDashboard(user) {
-  const nameElement = document.getElementById("dashboard-user-name");
 
-  if (nameElement) {
-    nameElement.textContent =
-      user.displayName ||
-      user.email?.split("@")[0] ||
-      "Learner";
-  }
+function openDashboard(user) {
+  const name =
+    user.displayName ||
+    user.email?.split("@")[0] ||
+    "Learner";
+
+  const nameElement = document.getElementById("dashboard-user-name");
+  const profileName = document.getElementById("ts-profile-name");
+  const profileEmail = document.getElementById("ts-profile-email");
+
+  if (nameElement) nameElement.textContent = name;
+  if (profileName) profileName.textContent = name;
+  if (profileEmail) profileEmail.textContent = user.email || "Not available";
 
   clearMessage("dashboard-feature-message");
   showScreen(dashboardScreen);
+
+  if (typeof window.tsShowView === "function") {
+    window.tsShowView("home");
+  }
 }
+
 
 /* ---------- STATUS MESSAGES ---------- */
 
@@ -561,26 +571,501 @@ document.getElementById("forgot-password-btn").addEventListener(
 
 /* ---------- DASHBOARD FEATURE CARDS ---------- */
 
-document.querySelectorAll(".learning-card").forEach((card) => {
-  card.addEventListener("click", () => {
-    const features = {
-      doubts: "AI Doubt Solver",
-      notes: "Smart Notes",
-      tests: "Practice Tests",
-      digital: "Digital Safety"
-    };
 
-    const feature = features[card.dataset.feature];
+/* ---------- TECH SAATHI DASHBOARD INTERACTIONS ---------- */
 
-    if (!feature) return;
+(function setupTechSaathiDashboard() {
+  const sidebar = document.getElementById("ts-sidebar");
+  const menuToggle = document.getElementById("ts-menu-toggle");
+  const backdrop = document.getElementById("ts-backdrop");
+  const languageSelect = document.getElementById("ts-language");
 
-    setMessage(
-      "dashboard-feature-message",
-      feature +
-        " is on the development roadmap. Its working features will be connected in the next stage."
+  const views = {
+    home: document.getElementById("ts-home-view"),
+    topics: document.getElementById("ts-topics-view"),
+    learning: document.getElementById("ts-learning-view"),
+    help: document.getElementById("ts-help-view"),
+    profile: document.getElementById("ts-profile-view")
+  };
+
+  let currentDevice = "mobile";
+  let currentLanguage = "en";
+
+  const words = {
+    en: {
+      home: "Home",
+      mobile: "Mobile Phone",
+      computer: "Laptop & Computer",
+      learning: "My Learning",
+      language: "Language",
+      signout: "Sign Out",
+      help: "Help",
+      profile: "Profile",
+      choose: "Choose your device",
+      chooseDescription: "Select what you would like to learn today.",
+      explore: "Explore →",
+      start: "Start Learning",
+      coming: "Lessons are being prepared. Please check back soon!",
+      mobileDescription: "Start with the basics and learn at your own pace.",
+      computerDescription: "Build computer confidence, one step at a time.",
+      back: "← Back to dashboard",
+      welcome: "Your journey to becoming more confident with technology starts here."
+    },
+    hi: {
+      home: "होम",
+      mobile: "मोबाइल फ़ोन",
+      computer: "लैपटॉप और कंप्यूटर",
+      learning: "मेरी पढ़ाई",
+      language: "भाषा",
+      signout: "साइन आउट",
+      help: "मदद",
+      profile: "प्रोफ़ाइल",
+      choose: "अपना डिवाइस चुनें",
+      chooseDescription: "आज आप क्या सीखना चाहते हैं?",
+      explore: "देखें →",
+      start: "सीखना शुरू करें",
+      coming: "पाठ तैयार किए जा रहे हैं। कृपया जल्द फिर आएँ!",
+      mobileDescription: "मोबाइल की बुनियादी बातें अपनी गति से सीखें।",
+      computerDescription: "धीरे-धीरे कंप्यूटर चलाना सीखें।",
+      back: "← डैशबोर्ड पर वापस जाएँ",
+      welcome: "तकनीक का आत्मविश्वास बढ़ाने की आपकी यात्रा यहाँ से शुरू होती है।"
+    },
+    bn: {
+      home: "হোম",
+      mobile: "মোবাইল ফোন",
+      computer: "ল্যাপটপ ও কম্পিউটার",
+      learning: "আমার শেখা",
+      language: "ভাষা",
+      signout: "সাইন আউট",
+      help: "সাহায্য",
+      profile: "প্রোফাইল",
+      choose: "আপনার ডিভাইস বেছে নিন",
+      chooseDescription: "আজ আপনি কী শিখতে চান?",
+      explore: "দেখুন →",
+      start: "শেখা শুরু করুন",
+      coming: "পাঠ তৈরি হচ্ছে। অনুগ্রহ করে পরে আবার আসুন!",
+      mobileDescription: "নিজের গতিতে মোবাইলের প্রাথমিক বিষয়গুলি শিখুন।",
+      computerDescription: "ধাপে ধাপে কম্পিউটার ব্যবহার শিখুন।",
+      back: "← ড্যাশবোর্ডে ফিরে যান",
+      welcome: "প্রযুক্তি ব্যবহারে আত্মবিশ্বাসী হওয়ার যাত্রা এখান থেকেই শুরু।"
+    }
+  };
+
+  const topicData = {
+    mobile: [
+      {
+        title: {
+          en: "Getting to Know Your Phone",
+          hi: "अपने फ़ोन को जानें",
+          bn: "আপনার ফোনকে চিনুন"
+        },
+        description: {
+          en: "Learn the buttons, touchscreen, volume, charging and basic settings.",
+          hi: "बटन, टचस्क्रीन, आवाज़, चार्जिंग और बुनियादी सेटिंग्स सीखें।",
+          bn: "বোতাম, টাচস্ক্রিন, ভলিউম, চার্জিং ও প্রাথমিক সেটিংস শিখুন।"
+        }
+      },
+      {
+        title: {
+          en: "Calling and Contacts",
+          hi: "कॉल और कॉन्टैक्ट",
+          bn: "কল ও কনট্যাক্ট"
+        },
+        description: {
+          en: "Make calls, save numbers and find your contacts.",
+          hi: "कॉल करें, नंबर सेव करें और कॉन्टैक्ट खोजें।",
+          bn: "কল করুন, নম্বর সেভ করুন এবং কনট্যাক্ট খুঁজুন।"
+        }
+      },
+      {
+        title: {
+          en: "WhatsApp and Messages",
+          hi: "व्हाट्सऐप और संदेश",
+          bn: "হোয়াটসঅ্যাপ ও মেসেজ"
+        },
+        description: {
+          en: "Understand messages, photos, voice notes and video calls.",
+          hi: "मैसेज, फ़ोटो, वॉइस नोट और वीडियो कॉल समझें।",
+          bn: "মেসেজ, ছবি, ভয়েস নোট ও ভিডিও কল শিখুন।"
+        }
+      },
+      {
+        title: {
+          en: "Internet and Browsing",
+          hi: "इंटरनेट और ब्राउज़िंग",
+          bn: "ইন্টারনেট ও ব্রাউজিং"
+        },
+        description: {
+          en: "Connect to the internet and find useful information safely.",
+          hi: "इंटरनेट से जुड़ें और सुरक्षित तरीके से जानकारी खोजें।",
+          bn: "ইন্টারনেটে যুক্ত হন এবং নিরাপদে তথ্য খুঁজুন।"
+        }
+      },
+      {
+        title: {
+          en: "Camera and Photos",
+          hi: "कैमरा और फ़ोटो",
+          bn: "ক্যামেরা ও ছবি"
+        },
+        description: {
+          en: "Take photos, record videos and find saved pictures.",
+          hi: "फ़ोटो लें, वीडियो बनाएँ और सेव की गई तस्वीरें खोजें।",
+          bn: "ছবি তুলুন, ভিডিও করুন এবং সংরক্ষিত ছবি খুঁজুন।"
+        }
+      },
+      {
+        title: {
+          en: "Apps and App Stores",
+          hi: "ऐप और ऐप स्टोर",
+          bn: "অ্যাপ ও অ্যাপ স্টোর"
+        },
+        description: {
+          en: "Understand apps and learn safer ways to install them.",
+          hi: "ऐप समझें और उन्हें सुरक्षित तरीके से इंस्टॉल करना सीखें।",
+          bn: "অ্যাপ বুঝুন এবং নিরাপদে ইনস্টল করতে শিখুন।"
+        }
+      },
+      {
+        title: {
+          en: "Online Services and Payments",
+          hi: "ऑनलाइन सेवाएँ और भुगतान",
+          bn: "অনলাইন পরিষেবা ও পেমেন্ট"
+        },
+        description: {
+          en: "Understand digital services and essential payment safety.",
+          hi: "डिजिटल सेवाएँ और भुगतान की ज़रूरी सुरक्षा समझें।",
+          bn: "ডিজিটাল পরিষেবা ও পেমেন্টের প্রয়োজনীয় নিরাপত্তা জানুন।"
+        }
+      },
+      {
+        title: {
+          en: "Privacy and Digital Safety",
+          hi: "गोपनीयता और डिजिटल सुरक्षा",
+          bn: "গোপনীয়তা ও ডিজিটাল নিরাপত্তা"
+        },
+        description: {
+          en: "Recognise scams and protect passwords, OTPs and personal details.",
+          hi: "धोखाधड़ी पहचानें और पासवर्ड, OTP व निजी जानकारी सुरक्षित रखें।",
+          bn: "প্রতারণা চিনুন এবং পাসওয়ার্ড, OTP ও ব্যক্তিগত তথ্য সুরক্ষিত রাখুন।"
+        }
+      }
+    ],
+    computer: [
+      {
+        title: {
+          en: "Getting to Know Your Computer",
+          hi: "अपने कंप्यूटर को जानें",
+          bn: "আপনার কম্পিউটারকে চিনুন"
+        },
+        description: {
+          en: "Understand the desktop, windows, taskbar and basic controls.",
+          hi: "डेस्कटॉप, विंडो, टास्कबार और बुनियादी नियंत्रण समझें।",
+          bn: "ডেস্কটপ, উইন্ডো, টাস্কবার ও প্রাথমিক নিয়ন্ত্রণ জানুন।"
+        }
+      },
+      {
+        title: {
+          en: "Mouse and Keyboard",
+          hi: "माउस और कीबोर्ड",
+          bn: "মাউস ও কীবোর্ড"
+        },
+        description: {
+          en: "Practise clicking, scrolling, typing and useful keyboard keys.",
+          hi: "क्लिक, स्क्रॉल, टाइप और उपयोगी कीबोर्ड कुंजियों का अभ्यास करें।",
+          bn: "ক্লিক, স্ক্রল, টাইপ ও দরকারি কীবোর্ড কী অনুশীলন করুন।"
+        }
+      },
+      {
+        title: {
+          en: "Files and Folders",
+          hi: "फ़ाइल और फ़ोल्डर",
+          bn: "ফাইল ও ফোল্ডার"
+        },
+        description: {
+          en: "Create, save, find, rename and organise files.",
+          hi: "फ़ाइल बनाएँ, सेव करें, खोजें, नाम बदलें और व्यवस्थित करें।",
+          bn: "ফাইল তৈরি, সংরক্ষণ, খোঁজা, নাম বদল ও সাজানো শিখুন।"
+        }
+      },
+      {
+        title: {
+          en: "Internet and Browsing",
+          hi: "इंटरनेट और ब्राउज़िंग",
+          bn: "ইন্টারনেট ও ব্রাউজিং"
+        },
+        description: {
+          en: "Use a browser, search for information and recognise unsafe sites.",
+          hi: "ब्राउज़र चलाएँ, जानकारी खोजें और असुरक्षित वेबसाइट पहचानें।",
+          bn: "ব্রাউজার ব্যবহার, তথ্য খোঁজা ও অনিরাপদ সাইট চেনা শিখুন।"
+        }
+      },
+      {
+        title: {
+          en: "Typing and Documents",
+          hi: "टाइपिंग और दस्तावेज़",
+          bn: "টাইপিং ও ডকুমেন্ট"
+        },
+        description: {
+          en: "Type text and understand the basics of editing a document.",
+          hi: "टाइप करें और दस्तावेज़ में बदलाव करना सीखें।",
+          bn: "টাইপ করুন এবং ডকুমেন্ট সম্পাদনার প্রাথমিক বিষয় শিখুন।"
+        }
+      },
+      {
+        title: {
+          en: "Email Basics",
+          hi: "ईमेल की बुनियादी बातें",
+          bn: "ইমেলের প্রাথমিক বিষয়"
+        },
+        description: {
+          en: "Understand inboxes, attachments and sending messages.",
+          hi: "इनबॉक्स, अटैचमेंट और ईमेल भेजना समझें।",
+          bn: "ইনবক্স, অ্যাটাচমেন্ট ও ইমেল পাঠানো শিখুন।"
+        }
+      },
+      {
+        title: {
+          en: "Downloads and Applications",
+          hi: "डाउनलोड और ऐप्लिकेशन",
+          bn: "ডাউনলোড ও অ্যাপ্লিকেশন"
+        },
+        description: {
+          en: "Understand downloads and safer ways to install software.",
+          hi: "डाउनलोड और सॉफ़्टवेयर इंस्टॉल करने के सुरक्षित तरीके समझें।",
+          bn: "ডাউনলোড ও সফটওয়্যার ইনস্টলের নিরাপদ পদ্ধতি জানুন।"
+        }
+      },
+      {
+        title: {
+          en: "Privacy and Digital Safety",
+          hi: "गोपनीयता और डिजिटल सुरक्षा",
+          bn: "গোপনীয়তা ও ডিজিটাল নিরাপত্তা"
+        },
+        description: {
+          en: "Protect accounts, passwords and personal information online.",
+          hi: "ऑनलाइन खातों, पासवर्ड और निजी जानकारी को सुरक्षित रखें।",
+          bn: "অনলাইনে অ্যাকাউন্ট, পাসওয়ার্ড ও ব্যক্তিগত তথ্য সুরক্ষিত রাখুন।"
+        }
+      }
+    ]
+  };
+
+  function closeMobileMenu() {
+    if (sidebar) sidebar.classList.remove("is-open");
+    if (backdrop) backdrop.hidden = true;
+    if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
+  }
+
+  function openMobileMenu() {
+    if (sidebar) sidebar.classList.add("is-open");
+    if (backdrop) backdrop.hidden = false;
+    if (menuToggle) menuToggle.setAttribute("aria-expanded", "true");
+  }
+
+  function setActiveNavigation(target) {
+    document.querySelectorAll(".ts-nav").forEach((button) => {
+      button.classList.remove("active");
+    });
+
+    const matchingButton = document.querySelector(
+      '.ts-nav[data-view="' + target + '"], ' +
+      '.ts-nav[data-device="' + target + '"]'
     );
+
+    if (matchingButton) matchingButton.classList.add("active");
+  }
+
+  function showView(target) {
+    Object.values(views).forEach((view) => {
+      if (view) view.hidden = true;
+    });
+
+    if (target === "language") {
+      if (languageSelect) languageSelect.focus();
+      setActiveNavigation("language");
+      closeMobileMenu();
+      return;
+    }
+
+    if (views[target]) {
+      views[target].hidden = false;
+    }
+
+    setActiveNavigation(target);
+    closeMobileMenu();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function openDevice(device) {
+    if (!topicData[device]) return;
+
+    currentDevice = device;
+
+    const titleElement = document.getElementById("ts-topics-title");
+    const descriptionElement = document.getElementById("ts-topics-description");
+    const grid = document.getElementById("ts-topics-grid");
+    const t = words[currentLanguage];
+
+    if (titleElement) {
+      titleElement.textContent =
+        device === "mobile" ? t.mobile : t.computer;
+    }
+
+    if (descriptionElement) {
+      descriptionElement.textContent =
+        device === "mobile"
+          ? t.mobileDescription
+          : t.computerDescription;
+    }
+
+    if (grid) {
+      grid.replaceChildren();
+
+      topicData[device].forEach((topic) => {
+        const card = document.createElement("article");
+        card.className = "ts-topic-card";
+
+        const heading = document.createElement("h3");
+        heading.textContent = topic.title[currentLanguage];
+
+        const description = document.createElement("p");
+        description.textContent = topic.description[currentLanguage];
+
+        const button = document.createElement("button");
+        button.className = "ts-primary";
+        button.type = "button";
+        button.textContent = t.start;
+
+        button.addEventListener("click", () => {
+          setMessage("dashboard-feature-message", t.coming);
+        });
+
+        card.append(heading, description, button);
+        grid.appendChild(card);
+      });
+    }
+
+    const message = document.getElementById("dashboard-feature-message");
+    if (message) message.textContent = "";
+
+    Object.values(views).forEach((view) => {
+      if (view) view.hidden = true;
+    });
+
+    if (views.topics) views.topics.hidden = false;
+
+    setActiveNavigation(device);
+    closeMobileMenu();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function applyDashboardLanguage(languageCode) {
+    if (!words[languageCode]) return;
+
+    currentLanguage = languageCode;
+    const t = words[currentLanguage];
+
+    document.documentElement.lang = currentLanguage;
+
+    document.querySelectorAll(".ts-nav").forEach((button) => {
+      const label = button.querySelector("span");
+      if (!label) return;
+
+      if (button.dataset.device) {
+        label.textContent = t[button.dataset.device];
+      } else if (button.dataset.view) {
+        label.textContent = t[button.dataset.view] || label.textContent;
+      } else if (button.dataset.action === "signout") {
+        label.textContent = t.signout;
+      }
+    });
+
+    const signOutButton = document.getElementById("dashboard-logout");
+    if (signOutButton) signOutButton.textContent = t.signout;
+
+    const chooseHeading = document.querySelector(
+      "#ts-home-view .ts-section h2"
+    );
+    const chooseDescription = document.querySelector(
+      "#ts-home-view .ts-section .ts-subtitle"
+    );
+
+    if (chooseHeading) chooseHeading.textContent = t.choose;
+    if (chooseDescription) {
+      chooseDescription.textContent = t.chooseDescription;
+    }
+
+    const welcomeDescription = document.querySelector(
+      "#ts-home-view .ts-welcome > p:last-child"
+    );
+    if (welcomeDescription) {
+      welcomeDescription.textContent = t.welcome;
+    }
+
+    document.querySelectorAll("#ts-home-view [data-device]").forEach((button) => {
+      button.textContent = t.explore;
+    });
+
+    const backButton = document.querySelector(".ts-back");
+    if (backButton) backButton.textContent = t.back;
+
+    if (views.topics && !views.topics.hidden) {
+      openDevice(currentDevice);
+    }
+  }
+
+  window.tsShowView = showView;
+
+  if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+      if (sidebar && sidebar.classList.contains("is-open")) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener("click", closeMobileMenu);
+  }
+
+  document.querySelectorAll("[data-device]").forEach((button) => {
+    button.addEventListener("click", () => {
+      openDevice(button.dataset.device);
+    });
   });
-});
+
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    button.addEventListener("click", () => {
+      showView(button.dataset.view);
+    });
+  });
+
+  document.querySelectorAll('[data-action="signout"]').forEach((button) => {
+    button.addEventListener("click", () => {
+      const signOutButton = document.getElementById("dashboard-logout");
+      if (signOutButton) signOutButton.click();
+    });
+  });
+
+  document.querySelectorAll(".ts-back").forEach((button) => {
+    button.addEventListener("click", () => showView("home"));
+  });
+
+  if (languageSelect) {
+    languageSelect.addEventListener("change", () => {
+      applyDashboardLanguage(languageSelect.value);
+    });
+  }
+
+  // Keep the dashboard's language selector in sync with the language
+  // chosen before signing in, without changing the existing auth flow.
+  if (languageSelect) {
+    languageSelect.value = currentLanguage;
+  }
+})();
+
 
 /* ---------- SIGN OUT ---------- */
 
