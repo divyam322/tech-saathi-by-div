@@ -921,9 +921,18 @@ document.getElementById("forgot-password-btn").addEventListener(
     if (grid) {
       grid.replaceChildren();
 
-      topicData[device].forEach((topic) => {
+      const topicIcons = device === "mobile"
+        ? ["📱", "📞", "💬", "🌐", "📸", "🧩", "💳", "🛡️"]
+        : ["💻", "🖱️", "📁", "🌐", "📝", "📧", "⬇️", "🔐"];
+
+      topicData[device].forEach((topic, index) => {
         const card = document.createElement("article");
         card.className = "ts-topic-card";
+
+        const icon = document.createElement("div");
+        icon.className = "ts-topic-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = topicIcons[index] || "✨";
 
         const heading = document.createElement("h3");
         heading.textContent = topic.title[currentLanguage];
@@ -940,7 +949,7 @@ document.getElementById("forgot-password-btn").addEventListener(
           setMessage("dashboard-feature-message", t.coming);
         });
 
-        card.append(heading, description, button);
+        card.append(icon, heading, description, button);
         grid.appendChild(card);
       });
     }
