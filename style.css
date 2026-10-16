@@ -1091,10 +1091,28 @@ button,
   transition: background 0.18s ease, color 0.18s ease;
 }
 
-.ts-nav > span:first-child {
-  min-width: 22px;
-  font-size: 21px;
+.ts-nav .ts-nav-icon {
+  display: inline-flex;
+  flex: 0 0 34px;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #f2f6fd;
+  font-size: 20px;
+  line-height: 1;
   text-align: center;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.ts-nav:hover .ts-nav-icon {
+  background: #e4eeff;
+  transform: scale(1.04);
+}
+
+.ts-nav.active .ts-nav-icon {
+  background: #d5e5ff;
 }
 
 .ts-nav:hover {
