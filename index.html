@@ -150,6 +150,93 @@
   </footer>
 </section>
 
+<!-- SCREEN 4: CREATE ACCOUNT -->
+<section id="register-screen" class="screen content-screen" hidden>
+  <button id="back-to-account" class="back-button">← <span id="register-back-label">Back</span></button>
+
+  <div class="account-heading">
+    <div class="account-icon" aria-hidden="true">✨</div>
+    <p class="eyebrow">TECH SAATHI BY DIV</p>
+    <h2 id="register-title">Create your free account</h2>
+    <p id="register-description">Join us to learn useful digital skills.</p>
+  </div>
+
+  <form id="register-form" class="auth-form">
+    <label for="register-name">Full name</label>
+    <input id="register-name" name="name" type="text" autocomplete="name" required maxlength="100" placeholder="Enter your full name">
+
+    <label for="register-dob">Date of birth</label>
+    <input id="register-dob" name="dob" type="date" autocomplete="bday" required>
+
+    <label for="register-email">Email address</label>
+    <input id="register-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+
+    <label for="register-password">Password</label>
+    <input id="register-password" name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters">
+
+    <label for="register-confirm-password">Confirm password</label>
+    <input id="register-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required minlength="8" placeholder="Enter your password again">
+
+    <p id="register-message" class="auth-message" role="status" aria-live="polite"></p>
+
+    <button type="submit" id="register-submit" class="primary-button">
+      Create Account →
+    </button>
+  </form>
+
+  <div class="auth-divider"><span>OR</span></div>
+
+  <button type="button" id="google-register-btn" class="secondary-button">
+    Continue with Google
+  </button>
+
+  <p class="auth-switch">
+    Already have an account?
+    <button type="button" id="show-sign-in" class="text-button">Sign In</button>
+  </p>
+</section>
+
+<!-- SCREEN 5: SIGN IN -->
+<section id="sign-in-screen" class="screen content-screen" hidden>
+  <button id="back-from-sign-in" class="back-button">← <span id="sign-in-back-label">Back</span></button>
+
+  <div class="account-heading">
+    <div class="account-icon" aria-hidden="true">👋</div>
+    <p class="eyebrow">WELCOME BACK</p>
+    <h2 id="login-title">Sign in to Tech Saathi</h2>
+    <p>Continue your digital learning journey.</p>
+  </div>
+
+  <form id="sign-in-form" class="auth-form">
+    <label for="login-email">Email address</label>
+    <input id="login-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+
+    <label for="login-password">Password</label>
+    <input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password">
+
+    <button type="button" id="forgot-password-btn" class="text-button">
+      Forgot password?
+    </button>
+
+    <p id="login-message" class="auth-message" role="status" aria-live="polite"></p>
+
+    <button type="submit" id="login-submit" class="primary-button">
+      Sign In →
+    </button>
+  </form>
+
+  <div class="auth-divider"><span>OR</span></div>
+
+  <button type="button" id="google-login-btn" class="secondary-button">
+    Continue with Google
+  </button>
+
+  <p class="auth-switch">
+    New to Tech Saathi?
+    <button type="button" id="show-register" class="text-button">Create Account</button>
+  </p>
+</section>
+
 
   </main>
 
