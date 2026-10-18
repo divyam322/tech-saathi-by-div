@@ -1,6 +1,7 @@
 /* Tech Saathi by Div: Mobile Phone learning path. Video URLs remain empty until videos are produced. */
 (function(){
 "use strict";
+function $(selector){ return document.querySelector(selector); }
 var modules=[
 {icon:"📱",t:["Getting Started with Your Smartphone","अपने स्मार्टफ़ोन की शुरुआत","স্মার্টফোনের সঙ্গে পরিচয়"],d:["Learn phone parts, screen controls and safe charging.","फ़ोन के हिस्से, स्क्रीन नियंत्रण और सुरक्षित चार्जिंग सीखें।","ফোনের অংশ, স্ক্রিন নিয়ন্ত্রণ ও নিরাপদ চার্জিং শিখুন।"],l:[
 ["Meet your smartphone","Recognise the screen, side buttons, camera, speaker and charging port.","Look at the large touchscreen. Find the side buttons, usually for power and volume. Find the charging port and camera openings. Designs differ by model.","Point to the screen, buttons and charging port.","Never insert metal objects into ports."],
