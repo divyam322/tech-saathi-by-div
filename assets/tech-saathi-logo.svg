@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 520" role="img" aria-labelledby="title desc">
+<title id="title">Tech Saathi by Div</title><desc id="desc">Teal and warm gold digital companion emblem above the Tech Saathi by Div wordmark.</desc>
+<rect width="640" height="520" fill="#f8f8f3"/>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="320" cy="205" r="116" stroke="#0b5960" stroke-width="7"/>
+<path d="M212 232 C222 151 272 108 328 118 C389 129 418 174 407 222 C399 258 365 283 327 294" stroke="#c58b42" stroke-width="10"/>
+<path d="M250 125 C218 158 222 205 259 237 C285 259 314 266 328 294 C340 322 325 351 303 370" stroke="#0b5960" stroke-width="12"/>
+<path d="M273 128 C305 148 342 177 355 207 C368 238 347 268 322 284" stroke="#c58b42" stroke-width="9"/>
+<path d="M321 82 V246 C321 273 307 290 283 300" stroke="#0b5960" stroke-width="13"/>
+<path d="M347 83 V229 C347 258 335 278 313 292" stroke="#c58b42" stroke-width="8"/>
+<path d="M350 86 H376 V120 H396 V164" stroke="#0b5960" stroke-width="7"/>
+<path d="M376 86 V142 H396 V181" stroke="#c58b42" stroke-width="7"/>
+<path d="M286 302 C270 323 260 350 257 382 L224 399 H412 L377 383 C362 356 353 329 350 300" fill="#0b5960" stroke="#0b5960" stroke-width="4"/>
+<path d="M266 335 L297 350 L316 328" stroke="#f8f8f3" stroke-width="7"/>
+<path d="M228 173 L194 154 L179 177 L210 193 M410 202 L444 184 L458 206 L428 224 M241 263 L210 280 L221 305 L253 287" stroke="#0b5960" stroke-width="7"/>
+<path d="M209 150 L198 118 L223 105 M413 151 L436 134 L451 154 M292 91 L303 66 L326 76" stroke="#c58b42" stroke-width="6"/>
+<path d="M197 118 L183 109 M436 134 L447 119 M303 66 L302 52" stroke="#0b5960" stroke-width="5"/>
+</g>
+<circle cx="303" cy="66" r="10" fill="#0b5960"/><circle cx="179" cy="177" r="9" fill="#0b5960"/><circle cx="458" cy="206" r="9" fill="#c58b42"/><circle cx="223" cy="105" r="7" fill="#0b5960"/><circle cx="451" cy="154" r="7" fill="#c58b42"/>
+<circle cx="307" cy="219" r="42" fill="#f8f8f3" stroke="#0b5960" stroke-width="5"/><text x="307" y="238" text-anchor="middle" font-family="Georgia,serif" font-size="62" font-weight="bold" fill="#0b5960">d</text>
+<text x="320" y="458" text-anchor="middle" font-family="Arial,sans-serif" font-size="49" font-weight="700" fill="#0b5960">Tech Saathi</text><text x="442" y="488" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#12243b">by Div</text>
+</svg>
