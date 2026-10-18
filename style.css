@@ -1654,3 +1654,6 @@ button,
     max-height: 190px;
   }
 }
+
+/* Tech Saathi by Div logo asset */
+.brand-logo-image{display:block;width:76px;height:76px;object-fit:contain;border-radius:12px}.ts-logo-image{display:block;width:44px;height:44px;object-fit:contain;border-radius:8px;flex:0 0 auto}
