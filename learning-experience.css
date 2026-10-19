@@ -82,3 +82,172 @@
 
 .ts-trackpad{width:88px;height:17px;margin-top:3px;border:1px solid #aab7b1;border-radius:0 0 12px 12px;background:#dce2df;color:#566b64;font-size:7px;cursor:pointer}.ts-trackpad:hover{background:#e2b96f}.ts-screen-toast{margin-top:4px;padding:3px 5px;border-radius:5px;background:#fff;color:#176361;font-size:7px;text-align:center;min-height:14px}.ts-phone-grid{max-height:190px;overflow:auto;scrollbar-width:thin}
 .ts-desktop-top button{padding:0;border:0;background:transparent;color:#42605b;font-size:8px;font-weight:800;cursor:pointer}.ts-desktop-top button:hover{text-decoration:underline}.ts-screen-toast{min-height:14px;margin:5px 4px;padding:3px 5px;border-radius:5px;background:#fff;color:#176361;font-size:7px;text-align:center}.ts-phone-grid{grid-template-columns:repeat(3,minmax(0,1fr));max-height:165px;overflow:auto;scrollbar-width:thin}.ts-trackpad{position:relative;z-index:2;width:88px;height:16px;margin-top:-10px;border:1px solid #aab7b1;border-radius:0 0 12px 12px;background:#dce2df;color:#566b64;font-size:7px;cursor:pointer}.ts-trackpad:hover{background:#e2b96f}.ts-desktop-icons{max-height:135px;overflow:auto}
+
+
+/* Responsive dashboard and practice simulator refinements */
+@media (min-width: 761px) {
+  #app:has(#dashboard-screen:not([hidden])) {
+    padding: 0;
+    justify-content: stretch;
+  }
+
+  #dashboard-screen {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    align-self: stretch;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  #dashboard-screen .ts-layout {
+    width: 100%;
+  }
+
+  #dashboard-screen .ts-main {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+}
+
+/* Keep simulator controls compact despite the dashboard's global button sizing. */
+#dashboard-screen .ts-phone-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  max-height: 160px;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+
+#dashboard-screen .ts-phone-grid::-webkit-scrollbar,
+#dashboard-screen .ts-desktop-icons::-webkit-scrollbar {
+  display: none;
+}
+
+#dashboard-screen .ts-sim-app {
+  min-width: 0;
+  min-height: 30px;
+  padding: 2px 0;
+  gap: 2px;
+  font: 700 6px/1.1 Arial, Helvetica, sans-serif;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+#dashboard-screen .ts-sim-app span:first-child {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  font-size: 13px;
+}
+
+#dashboard-screen .ts-phone-screen {
+  padding: 22px 8px 7px;
+}
+
+#dashboard-screen .ts-phone-title {
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
+
+#dashboard-screen .ts-phone-status {
+  margin-bottom: 7px;
+  line-height: 1.2;
+}
+
+#dashboard-screen .ts-phone-nav button,
+#dashboard-screen .ts-phone-side button {
+  font-size: 0;
+  line-height: 0;
+  padding: 0;
+}
+
+#dashboard-screen .ts-desktop-icons {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  max-height: 132px;
+  overflow: hidden;
+}
+
+#dashboard-screen .ts-desktop-icon {
+  min-width: 0;
+  padding: 3px 1px;
+  font: 700 7px/1.15 Arial, Helvetica, sans-serif;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+#dashboard-screen .ts-desktop-icon span:first-child {
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+#dashboard-screen .ts-taskbar button {
+  flex: 0 0 22px;
+  padding: 0;
+  font: 12px/1 Arial, Helvetica, sans-serif;
+}
+
+#dashboard-screen .ts-desktop-top button {
+  padding: 0;
+  font: 700 8px/1.2 Arial, Helvetica, sans-serif;
+}
+
+#dashboard-screen .ts-trackpad {
+  padding: 0;
+  font: 7px/1 Arial, Helvetica, sans-serif;
+}
+
+@media (max-width: 760px) {
+  #app:has(#dashboard-screen:not([hidden])) {
+    padding: 0;
+  }
+
+  #dashboard-screen {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  #dashboard-screen .ts-main,
+  #dashboard-screen .ts-guided-card,
+  #dashboard-screen .ts-simulator-wrap,
+  #dashboard-screen .ts-practice-aside {
+    min-width: 0;
+  }
+
+  #dashboard-screen .ts-simulator-head {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  #dashboard-screen .ts-practice-aside > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 380px) {
+  #dashboard-screen .ts-guided-card {
+    padding: 14px;
+  }
+
+  #dashboard-screen .ts-simulator-wrap {
+    padding: 12px;
+  }
+
+  #dashboard-screen .ts-phone {
+    transform: scale(.88);
+    transform-origin: center;
+  }
+
+  #dashboard-screen .ts-simulator-head small {
+    max-width: 42%;
+    text-align: right;
+  }
+}
